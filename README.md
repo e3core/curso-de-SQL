@@ -104,4 +104,49 @@ SELECT SUM(age) FROM users;
 -- selecciona la tabla users y donde el filtro IN vea en la columna name a juan o hector devolvera los registros que coincidan incluso asi esten en mayuscula
 SELECT * FROM users WHERE name IN ('juan','hector');
 
+-- selecciona la tabla users y donde edad este entre 18 y 30 mostrar registros
+SELECT * FROM users WHERE age BETWEEN 18 AND 30;
+
+--- ALIAS ( AS )
+--en este caso cambiara el nombre de init_date por fecha de programacion 
+SELECT init_date AS 'fecha de nacimiento' FROM users WHERE age BETWEEN 18
+ AND 30;
+
+-- CONCATENAR ( CONCAT )
+-- tomara las columnas name luego le agrega un espacio y luego la columna surname y las concatena en una sola columna
+SELECT CONCAT(name,' ',surname) FROM users;
+-- aqui tomara un cooncatena un conjunto de texto con datos 
+SELECT CONCAT('el nombre es:',name,' ','y el apellido es: ',surname) FROM users;
+
+-- aqui se le coloca un alias al codigo de la concatenacion
+SELECT CONCAT('el nombre es:',name,' ','y el apellido es: ',surname) AS 'Nombre completo' FROM users;
+
+-- AGRUPACIONES (GROUP BY)
+-- esto agrupara todo los maximos que eisten en age
+SELECT MAX(age) FROM users GROUP BY age;
+-- esto agrupara el conteo de las edades
+SELECT COUNT(age) FROM users GROUP BY age;
+
+-- aqui se usan varios comamdos y se explica de la siguiente manera se selecciona la columna edad de la tabla users
+-- y donde edad sea mayor a 20 agrupe las edades y las ordenes de manera ascendente.
+SELECT age FROM users WHERE age > 20 GROUP BY age ORDER BY age ASC;
+
+-- HAVING ( agregar funcionalidades )
+-- Esto me devolvera los usuarios con edades menores a 30;
+SELECT * FROM users HAVING age < 30;
+-- esto me devolvera el conteo mayor a 5
+SELECT COUNT(age) FROM users HAVING COUNT(age) > 5;
+
+-- CASE( realiza una logica completa )
+-- aqui se selecciona toda la tabla y se realiza un case el cual se compara si las edades son mayor a 20
+-- si esto se cumple mostrar un mensaje de lo contrario mostrara otro mensaje y esto se coloca en un alias 
+-- llamado comparador 
+SELECT *,
+    CASE
+    WHEN age > 20 THEN 'SI PUEDE INGRESAR'
+    ELSE 'NO PUEDE INGRESAR'
+    END AS 'COMPARADOR'
+    FROM users;
+
+
 ```
