@@ -149,4 +149,29 @@ SELECT *,
     FROM users;
 
 
+-- en este caso se selecciona la columna age pero si esta tiene un valor nulo lo reemplazara por un 0
+SELECT IFNULL(age,0) FROM users;
+
+-- este caso es = al contrario solo que devolvera el nombre y apellido 
+SELECT name,surname, IFNULL(age,0) FROM users;
+
+```
+# ESCRITURA DE DATOS
+
+```sql
+-- INSERT INTO ( insertar dentro )
+-- se inserta dentro de usuarios en las columnas nombre,apellido, edad los valores 'daniel','morillo',34 
+INSERT INTO users(name,surname,age) VALUES ('daniel','morillo',34);
+
+```
+
+# MODIFICACION DE DATOS
+
+```sql
+-- modifica en la tabla usuarios el valor de las columna edad a 27 ( ojo esto solo se hace si quieres cambiar todas las edades al mismo valor)
+UPDATE users SET age = 27;
+
+-- modifica en la tabla usuarios la edad a 27 donde id del usuario sea la 2
+UPDATE users SET age = 27 WHERE id_users = 2;
+
 ```
