@@ -174,4 +174,158 @@ UPDATE users SET age = 27;
 -- modifica en la tabla usuarios la edad a 27 donde id del usuario sea la 2
 UPDATE users SET age = 27 WHERE id_users = 2;
 
+-- modifica en la tabla usuarios la edad a 54 y la fecha a 1972-01-13 donde id del usuario sea 16
+UPDATE users SET age = 54,init_date = '1972-01-13' WHERE id_users = 16;
+
+```
+# ELIMINAR DATOS
+
+```sql
+
+-- eliminar de la tabla users el id donde id_users = 18
+DELETE FROM users WHERE id_users = 18;
+
+```
+# BASE DE DATOS
+
+```sql
+
+-- se crea una base de datos llamada test
+CREATE DATABASE test;
+
+-- se eleimina una base de datos llamada test
+DROP DATABASE test;
+
+```
+
+# ADMINISTRAR TABLAS
+
+```sql
+
+-- crear una tabla llamada persons el cual tendra como atributo id de tipo entero, una name de tipo varchar de (50) caracteres , un age de tipo int un email de 100 caracteres y un created de tipo date
+CREATE TABLE persons (
+    id int,
+    name varchar(50),
+    age int,
+    email varchar(100),
+    created date
+    );
+
+-- crear tabla llamada persons_dos pero a difencia de la primera tabla a esta se le agrega el NOT NULL a la id y al nombre queriendo decir que estas 2 columnas no podran ingresar valores nulos
+CREATE TABLE persons_dos (
+    id int NOT NULL,
+    name varchar(100) NOT NULL,
+    age int,
+    email varchar(50),
+    created date
+    );
+
+
+-- en esta tabla creada la diferencia es que se usa el UNIQUE el cual nos dice que sera unico , no que podra repetir en este tabla el valor de la id.
+CREATE TABLE persons_three (
+    id int NOT NULL,
+    name varchar(100) NOT NULL,
+    age int,
+    email varchar(50),
+    created datetime,
+    UNIQUE(id)
+    );
+
+
+-- en esta tabla se usa el primary key como identificador unico y primordial de la tabla, osea la clave primaria
+CREATE TABLE persons_for (
+    id int NOT NULL,
+    name varchar(100) NOT NULL,
+    age int,
+    email varchar(50),
+    created datetime,
+    UNIQUE(id),
+    PRIMARY KEY(id)
+);
+
+
+-- aqui se agrega un restriccion llamada CHECK el cual se le agrega una logica y si la cumple dejar acargar valores a la tabla de lo contrario no lo hara
+CREATE TABLE persons_five ( 
+    id int NOT NULL, 
+    name varchar(100) NOT NULL,
+    age int, 
+    email varchar(50) NOT NULL, 
+    created datetime, 
+    UNIQUE(id), 
+    PRIMARY KEY(id), 
+    CHECK( age>18 ) );
+
+
+-- aqui se le agrega a la columna created un valor por defecto( DEFAULT )
+CREATE TABLE persons_six ( 
+    id int NOT NULL, 
+    name varchar(100) NOT NULL,
+    age int, 
+    email varchar(50) NOT NULL, 
+    created datetime DEFAULT CURRENT_TIMESTAMP(), 
+    UNIQUE(id), 
+    PRIMARY KEY(id), 
+    CHECK( age>18 ) );
+
+
+CREATE TABLE persons_six ( 
+    id int NOT NULL AUTO_INCREMENT = 100, 
+    name varchar(100) NOT NULL,
+    age int, 
+    email varchar(50) NOT NULL, 
+    created datetime DEFAULT CURRENT_TIMESTAMP(), 
+    UNIQUE(id), 
+    PRIMARY KEY(id) ) 
+
+```
+
+# ELIMINAR UNA TABLA
+
+```sql
+
+-- eliminar la tabla con el nombre persons
+DROP TABLE persons;
+
+```
+# MODIFICAR TABLAS
+
+```sql
+-- agregar nueva columna (ADD)
+ALTER TABLE persons_seven ADD surname varchar(150) NOT NULL;
+
+-- renombrar columna(RENAME COLUMN)
+ALTER TABLE persons_seven RENAME COLUMN surname TO descripcion;
+
+-- modificar tipo de dato (MODIFY COLUMN)
+ALTER TABLE persons_seven MODIFY COLUMN descripcion VARCHAR(200);
+
+-- eliminar columnas (DROP COLUMN)
+ALTER TABLE persons_seven DROP COLUMN descripcion;
+
+```
+# RELACIONES ENTRE TABLAS
+### RELACION 1:1
+
+![RELACION 1:1](img/express.js.jpg)
+
+```sql
+
+CREATE TABLE users (
+    id_users int NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    age int NOT NULL,
+    email VARCHAR(100) NOT NULL,
+);
+
+CREATE TABLE dni (
+    dni_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    dni_number int NOT NULL,
+    id_users int,
+    UNIQUE(dni_id),
+    FOREIGN KEY(id_users) REFERENCES users(id_users)
+);
+
+
+
 ```
