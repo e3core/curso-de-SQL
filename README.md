@@ -299,8 +299,12 @@ ALTER TABLE persons_seven RENAME COLUMN surname TO descripcion;
 -- modificar tipo de dato (MODIFY COLUMN)
 ALTER TABLE persons_seven MODIFY COLUMN descripcion VARCHAR(200);
 
+-- alterar la tabla dni y modificar la columna dni_id colocando el tipo de dato entero luego que sea autoincremental y luego se le asigna un 2 al autoincremento para que lo haga de dos en dos;
+ALTER TABLE dni MODIFY COLUMN dni_id INT AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 -- eliminar columnas (DROP COLUMN)
 ALTER TABLE persons_seven DROP COLUMN descripcion;
+
 
 ```
 # RELACIONES ENTRE TABLAS
@@ -325,7 +329,5 @@ CREATE TABLE dni (
     UNIQUE(dni_id),
     FOREIGN KEY(id_users) REFERENCES users(id_users)
 );
-
-
 
 ```
