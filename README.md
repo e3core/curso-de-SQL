@@ -25,7 +25,7 @@ sudo mysql -u root
 > Crear nuevo usuario 
 ```sql
 CREATE USER 'nombre_de_usuario'@'localhost' IDENTIFIED BY 'contraseña';
-GRANT ALL PRIVILEGES ON * . * TO 'nombre_de_usuario' @ 'localhost'; 
+GRANT ALL PRIVILEGES ON * . * TO 'nombre_de_usuario'@'localhost'; 
 FLUSH PRIVILEGES;
 
 ```
@@ -313,9 +313,9 @@ ALTER TABLE persons_seven DROP COLUMN descripcion;
 ![RELACION 1:1](img/express.js.jpg)
 
 ```sql
-
+-- LA COLUMNA QUE LLEVE EL AUTO_INCREMENT DBE SER LA LLAVE PRIMARIA (PRIMARY KEY)
 CREATE TABLE users (
-    id_users int NOT NULL AUTO_INCREMENT,
+    id_users int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
     age int NOT NULL,
@@ -327,7 +327,35 @@ CREATE TABLE dni (
     dni_number int NOT NULL,
     id_users int,
     UNIQUE(dni_id),
+    UNIQUE(id_users),
     FOREIGN KEY(id_users) REFERENCES users(id_users)
 );
+
+```
+### RELACION 1:N
+
+![RELACION 1:N](img/express.js2.jpg)
+
+```sql
+-- LA COLUMNA QUE LLEVE EL AUTO_INCREMENT DBE SER LA LLAVE PRIMARIA (PRIMARY KEY)
+CREATE TABLE users (
+    id_users int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    age int NOT NULL,
+    email VARCHAR(100) NOT NULL,
+);
+
+ALTER TABLE users 
+ADD id_company varchar(100);
+
+CREATE TABLE company (
+    company_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name varchar(100) NOT NULL
+    );
+
+ALTER TABLE users 
+ADD CONSTRAINT fk_company
+FOREIGN KEY(id_company) REFERENCES company(company_id);
 
 ```
