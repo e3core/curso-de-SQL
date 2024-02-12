@@ -359,3 +359,62 @@ ADD CONSTRAINT fk_company
 FOREIGN KEY(id_company) REFERENCES company(company_id);
 
 ```
+### RELACION N:N
+
+```sql
+CREATE TABLE languajes(
+    languajes_id int AUTO_INCREMENT PRIMARY KEY,
+    name varchar(100)
+);
+
+-- a las tablas intermedias de la relacion muchos a muchos el nombre por lo general es el nombre
+-- de las 2 tablas
+
+CREATE TABLE users_languajes(
+    users_languajes_id int AUTO_INCREMENT PRIMARY KEY,
+    users_id int NOT NULL,
+    languajes_id int NOT NULL,
+    FOREIGN KEY(users_id) REFERENCES users(id_users),
+    FOREIGN key(languajes_id) REFERENCES languajes(languajes_id),
+    UNIQUE (users_id,languajes_id)
+);
+
+
+```
+
+### CONSULTAS DE RELACIONES
+
+```sql
+-- INNER JOIN( CONSULTAR DATOS COMUNES DE 2 O MAS TABLAS  )
+-- aqui se selecciona todo sobre la tabla users y se aplica la union con la tabla dni y que devuelva 
+-- la igualdad entre la columna id_users de la tabla users y la columna dni_id de la tabla dni.
+SELECT * FROM users
+INNER JOIN dni
+ON users.id_users = dni.dni_id;
+
+-- realiza lo mismo solo que se le coloca en filtrar por orden ascendente
+SELECT * FROM users
+INNER JOIN dni
+ON users.id_users = dni.dni_id
+ORDER BY age ASC;
+
+-- APLICACION DE INNER JOIN EN RELACIONES 1:N
+
+SELECT * FROM users
+INNER JOIN company
+ON users.id_company = company.company_id;
+
+-- APLICACION DE INNER JOIN EN RELACION N:N
+--  aqui se realiza el join pero en relaciona 3 tablas
+SELECT * 
+FROM users_languajes
+INNER JOIN users ON users_languajes.users_id = users.id_users
+INNER JOIN languajes ON users_languajes.id_users = languajes.languajes_id;
+
+-- aqui devolvera del join solo los nombres de los usuarios y los lenguajes
+SELECT users.name,languajes.name
+FROM users_languajes
+INNER JOIN users ON users_languajes.users_id = users.id_users
+INNER JOIN languajes ON users_languajes.id_users = languajes.languajes_id;
+
+```
