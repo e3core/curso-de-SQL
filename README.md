@@ -409,12 +409,107 @@ ON users.id_company = company.company_id;
 SELECT * 
 FROM users_languajes
 INNER JOIN users ON users_languajes.users_id = users.id_users
-INNER JOIN languajes ON users_languajes.id_users = languajes.languajes_id;
+INNER JOIN languajes ON users_languajes.users_id = languajes.languajes_id;
 
 -- aqui devolvera del join solo los nombres de los usuarios y los lenguajes
 SELECT users.name,languajes.name
 FROM users_languajes
 INNER JOIN users ON users_languajes.users_id = users.id_users
-INNER JOIN languajes ON users_languajes.id_users = languajes.languajes_id;
+INNER JOIN languajes ON users_languajes.users_id = languajes.languajes_id;
+
+--LEFT JOIN
+-- Este devolvera las columnas de la tabla izquierda
+-- Siempre se queda con los datos de la izquierda y si no posee le colocara un NULL
+SELECT * FROM users
+LEFT JOIN dni
+ON users.id_users = dni.dni_id;
+
+SELECT name,dni_number FROM users
+LEFT JOIN dni
+ON users.id_users = dni.dni_id;
+
+SELECT dni_number,name FROM users
+LEFT JOIN dni
+ON users.id_users = dni.dni_id;
+
+SELECT users.name,languajes.name
+FROM users_languajes
+LEFT JOIN users ON users_languajes.users_id = users.id_users
+LEFT JOIN languajes ON users_languajes.users_id = languajes.languajes_id;
+
+SELECT languajes.name,users.name
+FROM users_languajes
+LEFT JOIN users ON users_languajes.users_id = users.id_users
+LEFT JOIN languajes ON users_languajes.users_id = languajes.languajes_id;
+
+-- RIGH JOIN
+-- Este devolvera las columnas de la tabla derecha
+-- Siempre se queda con los datos de la derecha y si no posee le colocara un NULL
+SELECT * FROM users
+RIGHT JOIN dni
+ON users.id_users = dni.dni_id;
+
+SELECT name,dni_number FROM users
+RIGHT JOIN dni
+ON users.id_users = dni.dni_id;
+
+SELECT languajes.name,users.name
+FROM users_languajes
+RIGHT JOIN users ON users_languajes.users_id = users.id_users
+RIGHT JOIN languajes ON users_languajes.users_id = languajes.languajes_id;
+
+-- FULL JOIN
+-- esto une las dos tablas que se relacionen y devuelve todos sus datos
+-- NOTA: en mysql no existe el full join
+SELECT * users
+FULL JOIN dni
+ON users.id_users = dni.dni_id;
+
+-- UNION 
+-- para que esto funcione deben coincidir el nombre de las columnas en las tablas
+SELECT name FROM users 
+UNION 
+SELECT name FROM company;
+
+SELECT name FROM users WHERE name = 'hector' UNION SELECT name FROM company WHERE name = 'INVENCEM';
+```
+# CONCEPTOS AVANZADOS
+```sql
+-- INDEX
+-- Al crear indice genera que la tabla pese  mas
+-- En una tabla que tenga indice cada vez que se ingrese datos se hara mas lento ya que tien que regenerar el indice
+-- Los indice son buenos para la lectura de datos
+-- el indice se agrega en el campo donde sea mas facil la busqueda
+
+-- aqui se crea un indice llamado idx_name en la tabla users campo name
+CREATE INDEX idx_name ON users(name);
+
+-- crear indice siendo unico
+CREATE UNIQUE INDEX idx_name ON users(name);
+
+-- crear indice con dos campos de lectura
+CREATE UNIQUE INDEX idx_name ON users(name,surname);
+
+-- al realizar consultas como esta gracia sal indice se realizaran de manera mas rapida
+SELECT * FROM users WHERE name = 'hector';
+
+-- Eliminar indice 
+DROP INDEX idx_name ON users;
+
+-- TRIGGER
+
+-- Aqui se crea un disparador llamado tg_email donde se disparara despues de una modificacion en la tabla users si el email antiguo es diferente al email nuevo e insertara el email antiguo en la tabla email_history
+DELIMITER $$
+CREATE TRIGGER tg_email
+AFTER UPDATE ON users
+FOR EACH ROW
+BEGIN
+    IF OLD.email <> NEW.email THEN
+        INSERT INTO email_history(users_id, email)
+        VALUES(OLD.id_users, OLD.email);
+    END IF;
+END $$
+
+DELIMITER;
 
 ```
