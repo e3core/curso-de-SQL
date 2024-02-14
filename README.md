@@ -511,5 +511,127 @@ BEGIN
 END $$
 
 DELIMITER;
+-- eliminar trigger
+DROP TRIGGER tg_email
+
+--VIEW
+-- las vistas nos ayudan a guardar consultas que son repetitivas el cual nos mostrara virtualmente una tabla
+-- las vistas tienen el mismo problema que los indices, el cual cuando la tabla donde es generada la vista es modificada la vsita se regenera
+CREATE VIEW v_users_ages AS
+SELECT name,age
+FROM users
+WHERE age > 18;
+-- manera de llamar a la vista
+SELECT * FROM v_users_ages;
+-- eliminar vista 
+DROP VIEW v_users_ages;
+
+-- STORED PROCEDURE( PROCEDIMIENTO ALMACENADO )
+
+DELIMITER //
+CREATE PROCEDURE p_all_users()
+BEGIN
+    SELECT * FROM users;
+END//
+
+-- ejecutar procedimiento
+CALL p_all_users();
+
+-- con parametros
+DELIMITER //
+CREATE PROCEDURE p_all_user(IN age_param int)
+BEGIN
+    SELECT * FROM users WHERE age = age_param;
+END//
+
+
+-- eliminar procedimientos
+DROP PROCEDURE p_all_users;
+```
+
+# CONEXION DESDE CODIGO
+CONECTORES CON PYTHON
+ANTES DE ESO ASEGURAR TENER INSTALADO LA LIBRERIA SQL CONNECTION
+sudo apt install python3-pip
+pip install mysql-connector-python
+```python
+import mysql.connector
+
+
+config = {
+    "host":"127.0.0.1",
+    "port":"3306",
+    "database":"hola_mysql",
+    "user":"mantenimiento",
+    "password":"20989862"
+}
+
+connection = mysql.connector.connect(**config)
+cursor = connection.cursor()
+
+query = "SELECT * FROM users"
+cursor.execute(query)
+result = cursor.fetchall()
+
+for row in result:
+    print(row)
+
+cursor.close()
+connection.close()
+
+# CON INYECCION SQL
+import mysql.connector
+
+def base_date(user):
+    config = {
+        "host":"127.0.0.1",
+        "port":"3306",
+        "database":"hola_mysql",
+        "user":"mantenimiento",
+        "password":"20989862"
+    }
+
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor()
+
+    query = "SELECT * FROM users WHERE name ='" + user + "';"
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    for row in result:
+        print(row)
+
+    cursor.close()
+    connection.close()
+
+base_date("juan")
+
+# DE MANERA MAS SEGURA PARA EVITAR LAS INYECCIONES SQL
+
+import mysql.connector
+
+def base_date(user):
+    config = {
+        "host":"127.0.0.1",
+        "port":"3306",
+        "database":"hola_mysql",
+        "user":"mantenimiento",
+        "password":"20989862"
+    }
+
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor()
+
+    query = "SELECT * FROM users WHERE name = %s;"
+    cursor.execute(query,(user,))
+    result = cursor.fetchall()
+
+    for row in result:
+        print(row)
+
+    cursor.close()
+    connection.close()
+
+base_date("hector")
 
 ```
