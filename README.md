@@ -381,6 +381,9 @@ CREATE TABLE users_languajes(
 
 
 ```
+Las tablas quedaria relacionadas asi
+![RELACION DE TODAS LAS TABLAS](img/expressjs3.jpg)
+
 
 ### CONSULTAS DE RELACIONES
 
@@ -550,10 +553,11 @@ DROP PROCEDURE p_all_users;
 ```
 
 # CONEXION DESDE CODIGO
+- https://github.com/mouredev/retos-programacion-2023/tree/main/Retos/Reto%20%2323%20-%20LA%20BASE%20DE%20DATOS%20%5BMedia%5D
 CONECTORES CON PYTHON
 ANTES DE ESO ASEGURAR TENER INSTALADO LA LIBRERIA SQL CONNECTION
-sudo apt install python3-pip
-pip install mysql-connector-python
+- sudo apt install python3-pip
+- pip install mysql-connector-python
 ```python
 import mysql.connector
 
@@ -635,3 +639,25 @@ def base_date(user):
 base_date("hector")
 
 ```
+# SUBIR LA BASE DE DATOS A LA NUBE
+
+- https://vercel.com( para postgres )
+- https://supabase.com( para postgres )
+- https://raiolanetworks.com( hosting )
+- https://planetscale.com ( para mysql )
+- https://www.clever-cloud.com ( gratuita para cualquier getsor de base de datos )
+
+# CLIENTES DE BASES DE DATOS
+
+- https://www.dbvis.com/
+- https://tableplus.com/
+- https://www.devart.com/
+
+# PARA EXPORTAR LA BASE DE DATOS
+### DE MANERA LOCAL
+
+mysqldump -u TU_USUARIO -p NOMBRE_DE_LA_BASE_DE_DATOS > archivo.sql
+
+NOTA: Al importar una base de datos a la nube tal vez esta necesite que cambies el usuario y el nombre de la base de datos tal cual es generado en la nube y no se pueda cambiar.
+
+## Proximo a aprender( Diseño de bases de datos ), concurrencia, seguridad.
