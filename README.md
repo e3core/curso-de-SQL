@@ -14,7 +14,7 @@ sudo systemctl status mysql
 sudo mysql -u root
 
 ```
-> Interfaces para trabajar en mysql
+> Clientes para trabajar en mysql
 - dbvisualizer
 - phpmyadmin
 - devart
